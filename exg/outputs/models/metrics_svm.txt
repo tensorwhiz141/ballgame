@@ -1,0 +1,15 @@
+Accuracy: 0.7486
+
+Classification report:
+              precision    recall  f1-score   support
+
+        rest       0.72      0.82      0.77       277
+       blink       0.79      0.68      0.73       276
+
+    accuracy                           0.75       553
+   macro avg       0.75      0.75      0.75       553
+weighted avg       0.75      0.75      0.75       553
+
+Confusion matrix:
+[[227  50]
+ [ 89 187]]

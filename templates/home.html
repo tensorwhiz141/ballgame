@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EMG Gesture Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            padding: 40px;
+        }
+        .form-box {
+            background-color: white;
+            padding: 30px;
+            max-width: 500px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        input[type="text"], input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-box">
+    <h2>Predict Hand Gesture from EMG</h2>
+    <form action="/predictdata" method="POST">
+        <label for="ch1_voltage">Channel 1 Voltage:</label>
+        <input type="text" name="ch1_voltage" placeholder="e.g. 0.51" required>
+
+        <label for="ch2_voltage">Channel 2 Voltage:</label>
+        <input type="text" name="ch2_voltage" placeholder="e.g. 0.79" required>
+
+        <label for="ch3_voltage">Channel 3 Voltage:</label>
+        <input type="text" name="ch3_voltage" placeholder="e.g. 0.64" required>
+
+        <input type="submit" value="Predict Gesture">
+    </form>
+
+    {% if prediction_text %}
+        <h3 style="text-align:center; color:green;">{{ prediction_text }}</h3>
+    {% endif %}
+</div>
+
+</body>
+</html>
