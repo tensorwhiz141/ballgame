@@ -1,19 +1,25 @@
-# This code runs on the Raspberry Pi Pico
 import machine
 import time
+import sys
+import select
 
-# Set up the Analog-to-Digital Converter on GPIO Pin 26 (which is ADC0)
-# This is where your EMG sensor's signal pin should be connected.
-adc = machine.ADC(26)
+# EOG sensor connected to ADC pin (GP26)
+eog_sensor = machine.ADC(26)
+led = machine.Pin("LED", machine.Pin.OUT)
 
-# Main loop to continuously read and send data
 while True:
-    # Read the 16-bit analog value (an integer between 0 and 65535)
-    sensor_value = adc.read_u16()
+    # Read analog EOG value (0–65535)
+    eog_value = eog_sensor.read_u16()
 
-    # Print the value to the USB serial port so the PC can read it
-    print(sensor_value)
-
-    # Wait for 10 milliseconds. This creates a 100 Hz sampling rate.
-    # You can adjust this delay if needed.
-    time.sleep(0.01)
+    # Send value to PC
+    print(eog_value)
+    
+    # Check if PC sent back blink signal
+    if sys.stdin in select.select([sys.stdin], [], [], 0)[0]:
+        response = sys.stdin.readline().strip()
+        if response == "BLINK":
+            led.on()
+        elif response == "REST":
+            led.off()
+    
+    time.sleep(0.1)  # Sampling delay
